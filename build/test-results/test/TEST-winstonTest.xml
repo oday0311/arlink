@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="winstonTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-02-08T09:48:52" hostname="alexdeMacBook-Pro.local" time="0.026">
+  <properties/>
+  <testcase name="TestWinstonToAr()" classname="winstonTest" time="0.023"/>
+  <testcase name="TestArToWinston()" classname="winstonTest" time="0.002"/>
+  <system-out><![CDATA[ar count is 1
+winston count is 1.000001E+12
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
