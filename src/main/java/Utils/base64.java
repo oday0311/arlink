@@ -5,17 +5,22 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 public class base64 {
-    static String encode(String originalInput)
+
+    public static String encode(byte[] data){
+        String encodedString = Base64.getUrlEncoder().withoutPadding().encodeToString(data);
+        return encodedString;
+    }
+
+    public static String encode(String originalInput)
     {
-        String encodedString = Base64.getEncoder().withoutPadding().encodeToString(originalInput.getBytes());
+        String encodedString = Base64.getUrlEncoder().withoutPadding().encodeToString(originalInput.getBytes());
         return encodedString;
     }
 
 
-    static String decode(String originalInput)
+    public static byte[] decode(String originalInput)
     {
-        byte[] decodedBytes = Base64.getDecoder().decode(originalInput);
-        String decodedString = new String(decodedBytes);
-        return decodedString;
+        byte[] decodedBytes = Base64.getUrlDecoder().decode(originalInput);
+        return decodedBytes;
     }
 }

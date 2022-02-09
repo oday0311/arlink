@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
+
 
 public class base64Test {
     @Test
@@ -12,15 +12,15 @@ public class base64Test {
         try {
 
             String originalInput = "App-Name";
-            String encodedString = Base64.getEncoder().withoutPadding().encodeToString(originalInput.getBytes());
+            String encodedString = base64.encode(originalInput);
 
 
 
              System.out.println(encodedString );
 
 
-            byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
-            String decodedString = new String(decodedBytes);
+            byte[] decoded = base64.decode(encodedString);
+            String decodedString = new String(decoded);
 
             System.out.println(decodedString);
 
