@@ -89,7 +89,12 @@ public class RSAUtilsBC {
      * @throws BadPaddingException       异常
      */
     public static byte[] decrypt(PrivateKey privateKey, byte[] cipherData)
-            throws NoSuchPaddingException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+            throws NoSuchPaddingException,
+            NoSuchAlgorithmException,
+            NoSuchProviderException,
+            InvalidKeyException,
+            IllegalBlockSizeException,
+            BadPaddingException {
         Cipher cipher = Cipher.getInstance(ENCRYPT_ALGORITHM, BouncyCastleProvider.PROVIDER_NAME);
         cipher.init(Cipher.DECRYPT_MODE, privateKey);
         return cipher.doFinal(cipherData);

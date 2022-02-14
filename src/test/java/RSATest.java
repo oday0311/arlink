@@ -1,3 +1,4 @@
+import Utils.RSA.RSAUtilsBC;
 import org.bouncycastle.asn1.ASN1Object;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
@@ -15,7 +16,7 @@ import java.util.Base64;
 
 public class RSATest {
     @Test
-    public void TestRSA() throws Exception{
+    public void TestBounceCastleRSAKey() throws Exception{
         //生成密钥对
         RSAKeyPairGenerator rsaKeyPairGenerator = new RSAKeyPairGenerator();
         RSAKeyGenerationParameters rsaKeyGenerationParameters = new RSAKeyGenerationParameters(
