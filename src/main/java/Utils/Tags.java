@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tags {
+    public
     static List<Tag> TagsEncode(List<Tag> tags){
         List<Tag> result = new ArrayList<>();
         for (int i = 0;i<tags.size();i++)
@@ -19,6 +20,7 @@ public class Tags {
     }
 
 
+    public
     static List<Tag> TagsDecode(List<Tag> tags){
         List<Tag> result = new ArrayList<>();
         for (int i = 0;i<tags.size();i++)

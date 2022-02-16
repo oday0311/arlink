@@ -316,4 +316,16 @@ public class ClientTest {
         //wait for finish
         Thread.sleep(5000);
     }
+
+
+    @Test
+    public void TestSyncGetTransactionPrice()
+    {
+        Client c = new Client();
+        c.setup("https://arweave.net");
+        String price = c.syncGetTransactionPrice(null, "eIgnDk4vSKPe0lYB6yhCHDV1dOw3JgYHGocfj7WGrjQ");
+
+        System.out.println("the transaction price is "+ price);
+    }
+
 }

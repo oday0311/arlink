@@ -1,19 +1,23 @@
 package Types;
 
-public class Transaction {
-    int format;
-    String ID;
-    String lastTx;
-    String owner;
-    Tag[] Tags;
-    String target;
-    String quantity;
-    String data;
-    String dataSize;
-    String dataRoot;
-    String reward;
-    String signature;
+import lombok.Data;
 
-    Chunk chunks;
+@Data
+public class Transaction {
+    public int format;
+    public String ID;
+    public String lastTx;
+    public String owner;
+    public Tag[] tags;
+    public String target;
+    public String quantity;
+    public String data;
+    public String dataSize;
+    public String dataRoot;
+    public String reward;
+    public String signature;
+
+    public Chunk chunks;
+
 
 }

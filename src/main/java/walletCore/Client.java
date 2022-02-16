@@ -8,7 +8,7 @@ import java.io.IOException;
 
 
 public class Client {
-    public OkHttpClient httpClient;
+    public OkHttpClient httpClient = new OkHttpClient();
     public static String baseUrl = "https://arweave.net"; //default
     public void setup(String url)
     {
@@ -115,7 +115,10 @@ public class Client {
 
     public void GetTransactionPrice(byte[] data, String target, Callback callback){
 
-        long length = data.length;
+        long length = 0; // 0 data size for sending ar to targer price .
+        if (data==null) {
+          length =  data.length;
+        }
         String url = Client.baseUrl+"/price/" + length;
         if (target.length()>0)
         {
@@ -132,6 +135,34 @@ public class Client {
 
     }
 
+    public String syncGetTransactionPrice(byte[] data, String target){
+        long length = 0; // 0 data size for sending ar to targer price .
+        if (data!=null) {
+            length =  data.length;
+        }
+        String url = Client.baseUrl+"/price/" + length;
+        if (target.length()>0)
+        {
+            url = url+"/"+target;
+        }
+        Request request = new Request.Builder()
+                .url(url)
+                .get()//默认就是GET请求，可以不写
+                .build();
+        Call call = httpClient.newCall(request);
+        try {
+            Response res = call.execute();
+            String price = res.body().string();
+            return price;
+        }catch (Exception e){
+            System.out.println(e.toString());
+        }
+
+
+        return "0";
+
+    }
+
     public void GetTransactionAnchor(Callback callback){
         String url = Client.baseUrl+"/tx_anchor";
 
@@ -144,6 +175,28 @@ public class Client {
                 callback
         );
     }
+
+    public String syncGetTransactionAnchor(){
+        String url = Client.baseUrl+"/tx_anchor";
+
+        Request request = new Request.Builder()
+                .url(url)
+                .get()//默认就是GET请求，可以不写
+                .build();
+        Call call = httpClient.newCall(request);
+
+        try {
+            Response res = call.execute();
+            String result = res.body().string();
+            return result;
+        }catch (Exception e){
+            System.out.println(e.toString());
+        }
+
+        return null;
+    }
+
+
 
     public void SubmitTransaction(Transaction tx, Callback callback)
     {
