@@ -5,6 +5,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class sha256 {
+
+
+
     public static byte[] getSHA256StrJava(byte[] data){
         MessageDigest messageDigest;
         byte[] encodeStr = null;
