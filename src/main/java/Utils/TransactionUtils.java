@@ -1,6 +1,9 @@
 package Utils;
 
+import Types.Chunks;
 import Types.Transaction;
+
+import static Utils.merkleUtils.GenerateChunks;
 
 public class TransactionUtils {
 
@@ -12,6 +15,7 @@ public class TransactionUtils {
                 break;
             case 2:
                 byte[] data = base64.decode(tx.data);
+                //prepare chunk
 
                 break;
             default:
@@ -20,4 +24,18 @@ public class TransactionUtils {
 
         return null;
     }
+
+    static void PrepareChunk(Transaction tx, byte[] data)
+    {
+        if (tx.chunks==null && data.length>0){
+            tx.chunks = GenerateChunks(data);
+            tx.dataRoot = base64.encode(tx.chunks.DataRoot);
+        }
+
+        if (tx.chunks==null && data.length == 0) {
+            tx.chunks = new Chunks();
+        }
+        return;
+    }
+
 }

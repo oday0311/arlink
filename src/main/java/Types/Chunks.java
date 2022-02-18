@@ -1,7 +1,7 @@
 package Types;
 
 public class Chunks {
-    Byte[] DataRoot;
-    Chunk[] Chunks;
-    Proof[] Proofs;
+    public byte[] DataRoot;
+    public Chunk[] Chunks;
+    public Proof[] Proofs;
 }

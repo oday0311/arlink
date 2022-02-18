@@ -17,7 +17,7 @@ public class Transaction {
     public String reward;
     public String signature;
 
-    public Chunk chunks;
+    public Chunks chunks;
 
 
 }

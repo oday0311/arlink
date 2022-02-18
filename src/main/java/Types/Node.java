@@ -1,12 +1,12 @@
 package Types;
 
 public class Node {
-    Byte[] ID;
-    String Type;
-    Byte[] DataHash;
-    int MinByteRange ;    // only leaf node
-    int MaxByteRange ;
-    int ByteRange    ;   // only branch node
-    Node LeftChild ;    // only branch node
-    Node RightChild;  // only branch node
+    public byte[] ID;
+    public String Type;
+    public byte[] DataHash;
+    public int MinByteRange ;    // only leaf node
+    public int MaxByteRange ;
+    public int ByteRange    ;   // only branch node
+    public Node LeftChild ;    // only branch node
+    public Node RightChild;  // only branch node
 }

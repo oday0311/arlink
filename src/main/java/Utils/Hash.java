@@ -3,6 +3,7 @@ package Utils;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Hash {
 
@@ -11,10 +12,10 @@ public class Hash {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         byte[] result = new byte[48];
 
-        String listSize = new String(""+ data.size());
+        String listSizeInString = new String(""+ data.size());
         String key = "list";
         os.write(key.getBytes());
-        os.write(listSize.getBytes());
+        os.write(listSizeInString.getBytes());
 
         byte[] tag = os.toByteArray();
         byte[] tagHash = sha512.getSHA384StrJava(tag);
@@ -53,7 +54,7 @@ public class Hash {
     }
 
 
-    static public byte[] DeepHashChunk(ArrayList<Object> data, byte[] acc) throws  Exception{
+    static public byte[] DeepHashChunk(List<Object> data, byte[] acc) throws  Exception{
         if (data.size()<1)
         {
             return  acc;
@@ -67,7 +68,13 @@ public class Hash {
             dHash = DeepHashStr(str);
         } else{
             //todo
-            
+            Object[] value =(Object[]) data.get(0);
+            ArrayList<Object> dData =new ArrayList<>();
+            for (int i = 0;i<value.length;i++)
+            {
+                dData.add(value[i]);
+            }
+            dHash = DeepHash(dData);
         }
 
 
@@ -78,8 +85,9 @@ public class Hash {
         result = os.toByteArray();
         result = sha512.getSHA384StrJava(result);
 
-
-        return result;
+        List<Object> subData = data.subList(1,data.size());
+        result = DeepHashChunk(subData,result);
+        return  result;
     }
 
 
