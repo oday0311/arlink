@@ -1,6 +1,6 @@
 package Types;
 
 public class Proof {
-    int Offest;
-    Byte[] Proof;
+    public int Offest;
+    public byte[] Proof;
 }
