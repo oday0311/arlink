@@ -41,4 +41,6 @@ public class Const {
 
    static public HashMap<String,String> FATAL_CHUNK_UPLOAD_ERRORS = new HashMap<>();
    static public HashMap<String,Object> Input = new HashMap<>();
+
+   static public String e = "AQAB";
 }

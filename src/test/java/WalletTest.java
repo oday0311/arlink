@@ -325,7 +325,7 @@ public class WalletTest {
 
 
     @Test
-    public void  TestSendAR()
+    public void  TestSendAR() throws Exception
     {
         String target = "3vS0v6eUuu9IJohjb_NY_9KTQPPZvksEBno9rarfj5Q";
         BigDecimal amount = new BigDecimal("0.001");
@@ -364,8 +364,9 @@ public class WalletTest {
         t.Name = "arlink";
         t.Value = "sendAr";
         tags.add(t);
+            String str = wallet.SendAr(amount, target, tags);
+            System.out.println("the transaction id is " + str);
 
-        wallet.SendAr(amount, target , tags);
     }
 }
 
