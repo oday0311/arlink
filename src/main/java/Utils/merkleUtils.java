@@ -125,6 +125,10 @@ public class merkleUtils {
        }
 
        Node[] nodeArray = new Node[nexyLayer.size()];
+       for(int i = 0;i<nexyLayer.size();i++)
+       {
+           nodeArray[i] = nexyLayer.get(i);
+       }
        result = buildLayer(nodeArray, level+1);
        return result;
    }

@@ -43,16 +43,16 @@ public class merkleUtilTest
 
     @Test
     public void TestGenerateChunks() throws  Exception{
-        byte[] data = base64.decode("NzcyNg");
-        String code = base64.encode(merkleUtils.GenerateChunks(data).DataRoot);
-        System.out.println("the code is " + code);
+        //byte[] data = base64.decode("NzcyNg");
+        //String code = base64.encode(merkleUtils.GenerateChunks(data).DataRoot);
+        //System.out.println("the code is " + code);
         //z3rQGxyiqdQuOh2dxDst176oOKmW3S9MwQNTEh4DK1U
 
         byte[] fileData = readData();
 
         String fileChunkData = base64.encode(merkleUtils.GenerateChunks(fileData).DataRoot);
         System.out.println("the file chunk data "+ fileChunkData);
-
+        //o1tTTjbC7hIZN6KbUUYjlkQoDl2k8VXNuBDcGIs52Hc
 
     }
 
