@@ -3,6 +3,7 @@ package walletCore;
 import Types.Const;
 import Types.Tag;
 import Types.Transaction;
+import Utils.JsonUtils;
 import Utils.TransactionUtils;
 import com.nimbusds.jose.util.Base64URL;
 import org.bouncycastle.crypto.CipherParameters;
@@ -116,8 +117,12 @@ public class Wallet {
         tx = TransactionUtils.SignTransaction(tx, this);
         String id = tx.id;
         //3.upload tx : todo
-        Uploader uploader = Uploader.createUploader(Const.UploaderType.TransactionUploader, tx, this.client);
-        uploader.Once();
+        //Uploader uploader = Uploader.createUploader(Const.UploaderType.TransactionUploader, tx, this.client);
+        //uploader.Once();
+        this.client.submitTransaction(tx);
+
+        String json =JsonUtils.objectToJson(tx);
+        System.out.println("the json string is " + json);
 
         return id;
     }

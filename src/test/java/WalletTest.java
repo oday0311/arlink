@@ -323,6 +323,7 @@ public class WalletTest {
 
     }
 
+    //https://arweave.net/tx/zsHikjIRA2vngbXnzebBwBFyo9T9Jqy7Mj-iodJo31o
 
     @Test
     public void  TestSendAR() throws Exception
