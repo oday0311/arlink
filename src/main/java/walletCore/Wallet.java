@@ -3,9 +3,7 @@ package walletCore;
 import Types.Const;
 import Types.Tag;
 import Types.Transaction;
-import Utils.Tags;
 import Utils.TransactionUtils;
-import Utils.base64;
 import com.nimbusds.jose.util.Base64URL;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.digests.SHA256Digest;
@@ -14,17 +12,14 @@ import org.bouncycastle.crypto.params.ParametersWithRandom;
 import org.bouncycastle.crypto.params.RSAKeyParameters;
 import org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters;
 import org.bouncycastle.crypto.signers.PSSSigner;
+import walletCore.uploader.Uploader;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.util.ArrayList;
 
 public class Wallet {
 
-    public Client c = new Client();
+    public Client client = new Client();
     public String address;
     public RSAKeyParameters pkey;
     public RSAPrivateCrtKeyParameters privateKey;
@@ -34,8 +29,8 @@ public class Wallet {
     public Wallet setupFromPath()
     {
         //todo
-        c = new Client();
-        c.setup("https://arweave.net");
+        client = new Client();
+        client.setup("https://arweave.net");
         Wallet wallet = new Wallet();
 
         return wallet;
@@ -44,8 +39,8 @@ public class Wallet {
 
     public Wallet setup(byte[] b, String clientUrl, String proxyUrl){
         Wallet wallet = new Wallet();
-        c = new Client();
-        c.setup("https://arweave.net");
+        client = new Client();
+        client.setup("https://arweave.net");
         return wallet;
 
     }
@@ -82,7 +77,7 @@ public class Wallet {
     public String SendWinstonSpeedUp(BigDecimal amount, String target,ArrayList<Tag>tags, long seepdFactor) throws Exception{
         // 1. get tx price
 
-        String price = c.syncGetTransactionPrice(null, target);
+        String price = client.syncGetTransactionPrice(null, target);
 
         price = updateReward(price, seepdFactor);
 
@@ -96,7 +91,7 @@ public class Wallet {
         tx.target = target;
         tx.quantity = amount.toString();
         tx.data = "";
-        tx.dataSize = "0";
+        tx.data_size = "0";
         tx.reward = price;
         //tx.tags = ((Tag[]) Tags.TagsDecode(tags).toArray());
 
@@ -109,19 +104,20 @@ public class Wallet {
     //func (w *Wallet) SendTransaction(tx *types.Transaction) (id string, err error) {
     public String SendTransaction(Transaction tx) throws Exception{
         //1. GetTransactionAnchor
-        String anchor = c.syncGetTransactionAnchor();
+        String anchor = client.syncGetTransactionAnchor();
         System.out.println("the anchor is " + anchor);
 
 
-        tx.lastTx = anchor;
+        tx.last_tx = anchor;
         tx.owner = getOwner(this);
         System.out.println("get wallet owner " + tx.owner);
 
         //2. sign: todo
         tx = TransactionUtils.SignTransaction(tx, this);
-        String id = tx.ID;
+        String id = tx.id;
         //3.upload tx : todo
-
+        Uploader uploader = Uploader.createUploader(Const.UploaderType.TransactionUploader, tx, this.client);
+        uploader.Once();
 
         return id;
     }

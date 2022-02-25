@@ -1,6 +1,6 @@
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
+import Types.Transaction;
+import Utils.JsonUtils;
+import okhttp3.*;
 import org.junit.jupiter.api.Test;
 import walletCore.*;
 
@@ -326,6 +326,56 @@ public class ClientTest {
         String price = c.syncGetTransactionPrice(null, "eIgnDk4vSKPe0lYB6yhCHDV1dOw3JgYHGocfj7WGrjQ");
 
         System.out.println("the transaction price is "+ price);
+    }
+
+    @Test
+    public void TestSubmitTransaction()
+    {
+        String txId = "n1iKT3trKn6Uvd1d8XyOqKBy8r-8SSBtGA62m3puK5k";
+        Client c = new Client();
+        c.setup("https://arweave.net");
+
+        String url = Client.baseUrl+"/tx/" + txId;
+        Request request = new Request.Builder()
+                .url(url)
+                .get()//默认就是GET请求，可以不写
+                .build();
+
+        Call call = c.httpClient.newCall(request);
+        Transaction tx ;
+        try {
+            Response res = call.execute();
+            String result = res.body().string();
+            System.out.println("the transaction is " + result);
+            tx = JsonUtils.jsonToPojo(result, Transaction.class);
+            System.out.println("the transaction content is " + tx.toString());
+        }
+        catch (Exception e)
+        {
+            System.out.println("exception is " + e.toString());
+            return;
+        }
+
+
+
+
+        //post to /tx
+            url = Client.baseUrl+"/tx";
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");//数据类型为json格式，
+            String jsonStr = JsonUtils.objectToJson(tx);
+            RequestBody body = RequestBody.create(JSON, jsonStr);
+            request = new Request.Builder().url(url).post(body).build();
+            try{
+                call = c.httpClient.newCall(request);
+                Response res = call.execute();
+                String result = res.body().string();
+                System.out.println("the post result is " + result);
+            }catch (Exception e)
+            {
+                System.out.println("the post result is " + e.toString());
+            }
+
+
     }
 
 }

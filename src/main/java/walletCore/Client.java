@@ -2,6 +2,7 @@ package walletCore;
 
 import Types.GetChunk;
 import Types.Transaction;
+import Utils.JsonUtils;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -342,5 +343,49 @@ public class Client {
         call.enqueue(
                 callback
         );
+    }
+
+
+    public int submitTransaction(Transaction tx){
+        //httpPost "tx", json.
+        String url = Client.baseUrl+"/tx";
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");//数据类型为json格式，
+        String jsonStr = JsonUtils.objectToJson(tx);
+        RequestBody body = RequestBody.create(JSON, jsonStr);
+        Request request = new Request.Builder().url(url).post(body).build();
+        try{
+            Call call = httpClient.newCall(request);
+            Response res = call.execute();
+            String result = res.body().string();
+            System.out.println("the post result is " + result);
+            return res.code();
+        }catch (Exception e)
+        {
+
+            System.out.println("the post result is " + e.toString());
+            return -1;
+        }
+    }
+
+
+
+    public int submitChunk(GetChunk chunk){
+        //httpPost "tx", json.
+        String url = Client.baseUrl+"/chunk";
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");//数据类型为json格式，
+        String jsonStr = JsonUtils.objectToJson(chunk);
+        RequestBody body = RequestBody.create(JSON, jsonStr);
+        Request request = new Request.Builder().url(url).post(body).build();
+        try{
+            Call call = httpClient.newCall(request);
+            Response res = call.execute();
+            String result = res.body().string();
+            System.out.println("the post result is " + result);
+            return res.code();
+        }catch (Exception e)
+        {
+            System.out.println("the post result is " + e.toString());
+            return -1;
+        }
     }
 }

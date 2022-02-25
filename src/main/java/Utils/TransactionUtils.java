@@ -1,10 +1,10 @@
 package Utils;
 
-import Types.Chunks;
-import Types.Transaction;
+import Types.*;
 import walletCore.Wallet;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static Utils.Hash.DeepHash;
 import static Utils.merkleUtils.GenerateChunks;
@@ -18,14 +18,14 @@ public class TransactionUtils {
         byte[] signature = w.walletSign(signData);
 
         byte[] txId = sha256.getSHA256StrJava(signature);
-        tx.ID = base64.encode(txId);
+        tx.id = base64.encode(txId);
         tx.signature = base64.encode(signature);
 
 
         return tx;
     }
 
-    static byte[] GetSignatureData(Transaction tx) throws Exception
+    static public byte[] GetSignatureData(Transaction tx) throws Exception
     {
         switch (tx.format) {
             case 1:
@@ -48,12 +48,12 @@ public class TransactionUtils {
             dataList.add(quantityStr);
             String rewardStr = base64.encode(tx.reward.getBytes());
             dataList.add(rewardStr);
-            dataList.add(tx.lastTx);
+            dataList.add(tx.last_tx);
             //dataList.add(tags);
-                String datasizeStr = base64.encode(tx.dataSize.getBytes());
+                String datasizeStr = base64.encode(tx.data_size.getBytes());
                 dataList.add(datasizeStr);
-                if (tx.dataRoot != null) {
-                    dataList.add(tx.dataRoot);
+                if (tx.data_root != null) {
+                    dataList.add(tx.data_root);
                 }
                 byte[] hash = DeepHash(dataList);
                 return hash;
@@ -65,17 +65,36 @@ public class TransactionUtils {
         return null;
     }
 
-    static Transaction PrepareChunk(Transaction tx, byte[] data)
+    static public Transaction PrepareChunk(Transaction tx, byte[] data)
     {
         if (tx.chunks==null && data.length>0){
             tx.chunks = GenerateChunks(data);
-            tx.dataRoot = base64.encode(tx.chunks.DataRoot);
+            tx.data_root = base64.encode(tx.chunks.DataRoot);
         }
 
         if (tx.chunks==null && data.length == 0) {
             tx.chunks = new Chunks();
         }
         return tx;
+    }
+    static public GetChunk GetChunkFromTx(Transaction tx, int index, byte[] data){
+        if (tx.chunks==null){
+            System.out.println("the transaction is not prepared.");
+            return null;
+        }
+        Proof proof = tx.chunks.Proofs[index];
+        Chunk chunk = tx.chunks.Chunks[index];
+
+        GetChunk result = new GetChunk();
+        result.DataRoot = tx.data_root;
+        result.DataSize = tx.data_size;
+        result.DataPath = base64.encode(proof.Proof);
+        result.Offset = "" + proof.Offest;
+        byte[] cData = Arrays.copyOfRange(data,chunk.MinByteRange, chunk.MaxByteRange);
+        result.Chunk = base64.encode(cData);
+
+
+        return result;
     }
 
 }

@@ -299,4 +299,10 @@ public class merkleUtils {
 
         return temp;
     }
+
+
+    static public boolean ValidatePath(){
+        //skip, todo..
+        return true;
+    }
 }

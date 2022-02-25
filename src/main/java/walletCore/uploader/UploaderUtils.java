@@ -1,9 +1,11 @@
 package walletCore.uploader;
 
+import Types.Const;
 import Types.Transaction;
+import Utils.base64;
 import walletCore.Client;
 
-public class TransactionUploader extends  Uploader{
+public class UploaderUtils {
 
 
 

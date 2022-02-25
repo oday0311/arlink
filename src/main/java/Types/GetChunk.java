@@ -1,9 +1,9 @@
 package Types;
 
 public class GetChunk {
-    String DataRoot;
-    String DataSize;
-    String DataPath;
-    String Offset;
-    String Chunk;
+    public String DataRoot;
+    public String DataSize;
+    public String DataPath;
+    public String Offset;
+    public String Chunk;
 }

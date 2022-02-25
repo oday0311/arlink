@@ -43,4 +43,10 @@ public class Const {
    static public HashMap<String,Object> Input = new HashMap<>();
 
    static public String e = "AQAB";
+
+   public enum UploaderType{
+       TransactionUploader,
+       StringUploader,
+       SerializedUploader
+    }
 }

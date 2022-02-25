@@ -2,13 +2,8 @@ package walletCore.uploader;
 
 import Types.Transaction;
 
-public class SerializedUploader {
+public class SerializedUploader extends  Uploader{
 
-    public int chunkIndex;
-    public boolean txPosted;
-    public Transaction transaction;
-    long lastRequestTimeEnd;
-    int lastResponseStatus;
-    String lastResponseError;
+
 
 }

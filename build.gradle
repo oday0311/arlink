@@ -16,6 +16,7 @@ dependencies {
     implementation 'org.bouncycastle:bcprov-jdk15on:1.69'
     implementation 'org.bouncycastle:bcpkix-jdk15on:1.65'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.9'
     implementation(group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.19')
 
 }
