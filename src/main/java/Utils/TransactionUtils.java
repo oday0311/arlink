@@ -29,9 +29,10 @@ public class TransactionUtils {
     {
         switch (tx.format) {
             case 1:
-                //todo
+                //todo, pure transfer ar
                 break;
             case 2:
+                //transfer ar with data.
                 byte[] data = base64.decode(tx.data);
                 //prepare chunk
                 tx = PrepareChunk(tx, data);

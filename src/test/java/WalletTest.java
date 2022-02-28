@@ -365,8 +365,10 @@ public class WalletTest {
         t.Name = "arlink";
         t.Value = "sendAr";
         tags.add(t);
-            String str = wallet.SendAr(amount, target, tags);
-            System.out.println("the transaction id is " + str);
+
+        wallet.setClientUrl("http://178.62.222.154:1984");
+        String str = wallet.SendAr(amount, target, tags);
+        System.out.println("the transaction id is " + str);
 
     }
 }

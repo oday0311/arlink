@@ -7,6 +7,7 @@ import walletCore.*;
 import java.io.IOException;
 
 public class ClientTest {
+    static public String testingNode = "http://178.62.222.154:1984";
     @Test
     public void TestGetNetworkInfo() throws Exception{
         Object lock = new Object();
@@ -334,6 +335,7 @@ public class ClientTest {
         String txId = "n1iKT3trKn6Uvd1d8XyOqKBy8r-8SSBtGA62m3puK5k";
         Client c = new Client();
         c.setup("https://arweave.net");
+        c.setup(testingNode);
 
         String url = Client.baseUrl+"/tx/" + txId;
         Request request = new Request.Builder()

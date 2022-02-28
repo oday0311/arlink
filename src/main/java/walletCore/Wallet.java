@@ -5,6 +5,7 @@ import Types.Tag;
 import Types.Transaction;
 import Utils.JsonUtils;
 import Utils.TransactionUtils;
+import Utils.winston;
 import com.nimbusds.jose.util.Base64URL;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.digests.SHA256Digest;
@@ -36,6 +37,10 @@ public class Wallet {
 
         return wallet;
 
+    }
+    public void setClientUrl(String url)
+    {
+        client.setup(url);
     }
 
     public Wallet setup(byte[] b, String clientUrl, String proxyUrl){
@@ -71,7 +76,9 @@ public class Wallet {
 
     public String SendAr(BigDecimal amount, String target, ArrayList<Tag> tags) throws Exception
     {
-        String result = SendWinstonSpeedUp(amount, target, tags, 0);
+        BigDecimal winsonAmount = winston.ArToWinston(amount);
+        BigDecimal amountWithOutFloat = winsonAmount.setScale(0,BigDecimal.ROUND_UP);
+        String result = SendWinstonSpeedUp(amountWithOutFloat, target, tags, 0);
         return result;
     }
 
@@ -100,6 +107,8 @@ public class Wallet {
         String result = SendTransaction(tx);
         return  result;
     }
+
+
 
 
     //func (w *Wallet) SendTransaction(tx *types.Transaction) (id string, err error) {
