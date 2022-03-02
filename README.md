@@ -1,3 +1,7 @@
+#arweave
+Arweave is a distributed, cryptographically verified permanent archive built on a cryptocurrency that aims to, for the first time, provide feasible data permanence. By leveraging our novel Blockweave datastructure, data is stored in a decentralised, peer-to-peer manner where miners are incentivised to store rare data.
+
+
 # arlink
 this is the arlink 
 
@@ -12,7 +16,6 @@ any code commit or suggestion is welcome..
 
 
 
-Client
 
 #### Client [80%]
 read the testing sample in ClientTest.
