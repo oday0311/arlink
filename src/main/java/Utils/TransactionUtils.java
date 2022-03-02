@@ -14,7 +14,12 @@ public class TransactionUtils {
 
     static public Transaction SignTransaction(Transaction tx, Wallet w) throws Exception{
         byte[] signData = GetSignatureData(tx);
+        for (int i = 0;i<signData.length;i++) {
+            int unsigned = (int) (signData[i] & 0x0000FF);
+            System.out.print(unsigned + " ");
+        }
 
+        System.out.println(base64.encode(signData));
         byte[] signature = w.walletSign(signData);
 
         byte[] txId = sha256.getSHA256StrJava(signature);
@@ -50,14 +55,20 @@ public class TransactionUtils {
             String rewardStr = base64.encode(tx.reward.getBytes());
             dataList.add(rewardStr);
             dataList.add(tx.last_tx);
-            //dataList.add(tags);
-                String datasizeStr = base64.encode(tx.data_size.getBytes());
-                dataList.add(datasizeStr);
-                if (tx.data_root != null) {
-                    dataList.add(tx.data_root);
-                }
-                byte[] hash = DeepHash(dataList);
-                return hash;
+
+            //dataList.add(tx.tags);
+                String[][] tagData= new String[0][];
+                dataList.add(tagData);
+
+
+
+            String datasizeStr = base64.encode(tx.data_size.getBytes());
+            dataList.add(datasizeStr);
+            if (tx.data_root != null) {
+                dataList.add(tx.data_root);
+            }
+            byte[] hash = DeepHash(dataList);
+            return hash;
 
             default:
                 System.out.println("unknown format");
