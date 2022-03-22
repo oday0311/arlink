@@ -142,7 +142,7 @@ public class Client {
             length =  data.length;
         }
         String url = Client.baseUrl+"/price/" + length;
-        if (target.length()>0)
+        if (target!=null && target.length()>0)
         {
             url = url+"/"+target;
         }

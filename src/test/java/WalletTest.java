@@ -214,21 +214,10 @@ public class WalletTest {
     }
 
 
-    @Test
-    public void TestJWS() throws Exception
-    {
-        //doc:
-        //https://connect2id.com/products/nimbus-jose-jwt/examples/jwt-with-rsa-signature
-
-        // KeyPairGenerator kpg = KeyPairGenerator.getInstance(keyAlgorithm); // RSA
-        // kpg.initialize(keySize); // 2048
-        // KeyPair kp = kpg.generateKeyPair();
-
-    }
 
 
     @Test
-    public void initKey() throws Exception{
+    public void TestSignature() throws Exception{
 
         //RSAPrivateCrtKeyParameters
         Base64URL n = new Base64URL("nQ9iy1fRM2xrgggjHhN1xZUnOkm9B4KFsJzH70v7uLMVyDqfyIJEVXeJ4Jhk_8KpjzYQ1kYfnCMjeXnhTUfY3PbeqY4PsK5nTje0uoOe1XGogeGAyKr6mVtKPhBku-aq1gz7LLRHndO2tvLRbLwX1931vNk94bSfJPYgMfU7OXxFXbTdKU38W6u9ShoaJGgUQI1GObd_sid1UVniCmu7P-99XPkixqyacsrkHzBajGz1S7jGmpQR669KWE9Z0unvH0KSHxAKoDD7Q7QZO7_4ujTBaIFwy_SJUxzVV8G33xvs7edmRdiqMdVK5W0LED9gbS4dv_aee9IxUJQqulSqZphPgShIiGNl9TcL5iUi9gc9cXR7ISyavos6VGiem_A-S-5f-_OKxoeZzvgAQda8sD6jtBTTuM5eLvgAbosbaSi7zFYCN7zeFdB72OfvCh72ZWSpBMH3dkdxsKCDmXUXvPdDLEnnRS87-MP5RV9Z6foq_YSEN5MFTMDdo4CpFGYl6mWTP6wUP8oM3Mpz3-_HotwSZEjASvWtiff2tc1fDHulVMYIutd52Fis_FKj6K1fzpiDYVA1W3cV4P28Q1-uF3CZ8nJEa5FXchB9lFrXB4HvsJVG6LPSt-y2R9parGi1_kEc6vOYIesKspgZ0hLyIKtqpTQFiPgKRlyUc-WEn5E");
@@ -325,14 +314,10 @@ public class WalletTest {
 
     //https://arweave.net/tx/zsHikjIRA2vngbXnzebBwBFyo9T9Jqy7Mj-iodJo31o
 
-    @Test
-    public void  TestSendAR() throws Exception
+
+
+    public void setupWallet()
     {
-        String target = "3vS0v6eUuu9IJohjb_NY_9KTQPPZvksEBno9rarfj5Q";
-        BigDecimal amount = new BigDecimal("0.001");
-        ArrayList<Tag> tags = new ArrayList<>();
-
-
         //RSAPrivateCrtKeyParameters
         Base64URL n = new Base64URL("nQ9iy1fRM2xrgggjHhN1xZUnOkm9B4KFsJzH70v7uLMVyDqfyIJEVXeJ4Jhk_8KpjzYQ1kYfnCMjeXnhTUfY3PbeqY4PsK5nTje0uoOe1XGogeGAyKr6mVtKPhBku-aq1gz7LLRHndO2tvLRbLwX1931vNk94bSfJPYgMfU7OXxFXbTdKU38W6u9ShoaJGgUQI1GObd_sid1UVniCmu7P-99XPkixqyacsrkHzBajGz1S7jGmpQR669KWE9Z0unvH0KSHxAKoDD7Q7QZO7_4ujTBaIFwy_SJUxzVV8G33xvs7edmRdiqMdVK5W0LED9gbS4dv_aee9IxUJQqulSqZphPgShIiGNl9TcL5iUi9gc9cXR7ISyavos6VGiem_A-S-5f-_OKxoeZzvgAQda8sD6jtBTTuM5eLvgAbosbaSi7zFYCN7zeFdB72OfvCh72ZWSpBMH3dkdxsKCDmXUXvPdDLEnnRS87-MP5RV9Z6foq_YSEN5MFTMDdo4CpFGYl6mWTP6wUP8oM3Mpz3-_HotwSZEjASvWtiff2tc1fDHulVMYIutd52Fis_FKj6K1fzpiDYVA1W3cV4P28Q1-uF3CZ8nJEa5FXchB9lFrXB4HvsJVG6LPSt-y2R9parGi1_kEc6vOYIesKspgZ0hLyIKtqpTQFiPgKRlyUc-WEn5E");
         Base64URL e = new Base64URL("AQAB");
@@ -359,6 +344,16 @@ public class WalletTest {
                 e.decodeToBigInteger());
 
         wallet.setupKeys(pub, priv, n.toString());
+    }
+    @Test
+    public void  TestSendAR() throws Exception
+    {
+        String target = "3vS0v6eUuu9IJohjb_NY_9KTQPPZvksEBno9rarfj5Q";
+        BigDecimal amount = new BigDecimal("0.001");
+        ArrayList<Tag> tags = new ArrayList<>();
+
+
+       setupWallet();
 
 
         Tag t = new Tag();
@@ -371,6 +366,45 @@ public class WalletTest {
         System.out.println("the transaction id is " + str);
 
     }
+
+
+    @Test
+    public void TestSendSmallData() throws Exception{
+        setupWallet();
+        String str = "aaa this is a goar test small size file data";
+        byte[] data = str.getBytes(StandardCharsets.UTF_8);
+        Tag t = new Tag();
+        t.Name = "GOAR";
+        t.Value = "SMDT";
+        ArrayList<Tag> tags = new ArrayList<>();
+        tags.add(t);
+
+        Tag[] tagArray = new Tag[tags.size()];
+        tagArray = tags.toArray(tagArray);
+        wallet.sendData(data, tagArray);
+    }
+
+
+    //todo
+    @Test
+    public void TestSendBigData() throws Exception{
+        setupWallet();
+        byte[] data = new byte[255*1024];
+        for (int i = 0;i< data.length;i++)
+        {
+            data[i] = (byte)('b' + i);
+        }
+        Tag t = new Tag();
+        t.Name = "GOAR";
+        t.Value = "SMDT";
+        ArrayList<Tag> tags = new ArrayList<>();
+        tags.add(t);
+
+        Tag[] tagArray = new Tag[tags.size()];
+        tagArray = tags.toArray(tagArray);
+        wallet.sendData(data, tagArray);
+    }
+
 }
 
 

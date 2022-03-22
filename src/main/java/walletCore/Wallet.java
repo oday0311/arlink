@@ -3,9 +3,7 @@ package walletCore;
 import Types.Const;
 import Types.Tag;
 import Types.Transaction;
-import Utils.JsonUtils;
-import Utils.TransactionUtils;
-import Utils.winston;
+import Utils.*;
 import com.nimbusds.jose.util.Base64URL;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.digests.SHA256Digest;
@@ -68,11 +66,7 @@ public class Wallet {
     }
 
 
-    //RSASSA-PSS signature scheme according to RFC 8017.
-    public String signature()
-    {
-        return "";
-    }
+
 
     public String SendAr(BigDecimal amount, String target, ArrayList<Tag> tags) throws Exception
     {
@@ -122,7 +116,7 @@ public class Wallet {
         tx.owner = getOwner(this);
         System.out.println("get wallet owner " + tx.owner);
 
-        //2. sign: todo
+        //2. sign
         tx = TransactionUtils.SignTransaction(tx, this);
         String id = tx.id;
         //3.upload tx : todo
@@ -140,7 +134,6 @@ public class Wallet {
 
 
     public String updateReward(String price, long speedFactor){
-        //fmt.Sprintf("%d", reward*(100+speedFactor)/100
         BigDecimal base = new BigDecimal("100");
         BigDecimal speed = new BigDecimal(speedFactor);
 
@@ -167,7 +160,7 @@ public class Wallet {
             System.out.println("the pss signature is " + Base64URL.encode(s));
             result = s;
 
-            {//todo verify
+            {//verify
                 Base64URL base64URL_n = new Base64URL(this.n);
                 Base64URL base64URL_e = new Base64URL(this.e);
                 RSAKeyParameters pub = new RSAKeyParameters(false,
@@ -191,5 +184,30 @@ public class Wallet {
 
     }
 
+
+    public void sendData(byte[] data, Tag[] tags) throws Exception
+    {
+        sendDataSpeedup(data, tags, 0);
+    }
+
+
+    public String sendDataSpeedup(byte[] data, Tag[] tags, long speed) throws Exception{
+        String price = client.syncGetTransactionPrice(data, null);
+
+        price = updateReward(price, speed);
+        //2. build transaction
+        Transaction tx = new Transaction();
+
+        //init
+        tx.format= 2;
+        tx.target = "";
+        tx.quantity = "0";
+        tx.data = base64.encode(data);
+        tx.data_size = "" + data.length;
+        tx.reward = price;
+
+        String result = SendTransaction(tx);
+        return result;
+    }
 
 }
